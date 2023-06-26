@@ -1,0 +1,30 @@
+﻿@inherits LayoutComponentBase
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+
+<MudLayout>
+    <MudAppBar Color="Color.Primary" Fixed="false">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        FirebaseBlazorAuth
+        <MudSpacer />
+        <AuthorizeView>
+            <Authorized>
+                <MudFab StartIcon="@Icons.Material.Filled.AccountCircle" Color="Color.Secondary" Label="Account" OnClick="@((e) => NavigateToAccount())" />
+
+            </Authorized>
+            <NotAuthorized>
+                <MudFab StartIcon="@Icons.Material.Filled.Login" Color="Color.Secondary" Label="Login" OnClick="@((e) => NavigateToLogin())" />
+            </NotAuthorized>
+        </AuthorizeView>
+        
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen">
+        <MyNavMenu/>
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+

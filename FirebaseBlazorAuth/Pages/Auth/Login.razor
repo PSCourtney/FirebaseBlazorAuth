@@ -1,0 +1,67 @@
+﻿@page "/Login"
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>Login</PageTitle>
+<MudContainer>
+    <AuthorizeView>
+        <NotAuthorized>
+
+            <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" Color="Color.Primary" PanelClass="pa-6">
+                <MudTabPanel Text="Login" Icon="@Icons.Material.Filled.Login">
+                    <MudGrid>
+                        <MudItem xs="12" sm="7">
+                            <MudPaper Class="pa-4">
+                                <MudForm @ref="form" @bind-IsValid="@LoginSuccess" @bind-Errors="@LoginErrors">
+                                    <MudTextField T="string" Label="Email" Required="true" RequiredError="Email is required!" @ref="_loginEmail"
+                                                  Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" />
+                                    <MudTextField T="string" Label="Password" @ref="_loginPassword"
+                                                  InputType="InputType.Password"
+                                                  Required="true"
+                                                  RequiredError="Password is required!" />
+                                    @if (ShowErrorMessage)
+                                    {
+                                        <p>@ErrorMessage</p>
+                                    }
+                                    <div class="d-flex align-center justify-space-between mt-5 ">
+                                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!LoginSuccess)" Class="ml-auto" OnClick="@(()=>SignIn())">Login</MudButton>
+                                    </div>
+                                </MudForm>
+                            </MudPaper>
+                         
+                        </MudItem>
+                    </MudGrid>
+                </MudTabPanel>
+                <MudTabPanel Text="Sign up" Icon="@Icons.Material.Filled.Create">
+                    <MudGrid>
+                        <MudItem xs="12" sm="7">
+                            <MudPaper Class="pa-4">
+                                <MudForm @ref="form" @bind-IsValid="@SignUpSuccess" @bind-Errors="@SignUpErrors">
+                                    <MudTextField T="string" Label="Email" Required="true" RequiredError="Email is required!" @ref="_signUpEmail"
+                                                  Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" />
+                                    <MudTextField T="string" Label="Password" HelperText="Choose a strong password" @ref="_signUpPassword"
+                                                  InputType="InputType.Password"
+                                                  Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))" Required="true"
+                                                  RequiredError="Password is required!" />
+                                    <MudTextField T="string"
+                                                  Label="Password" HelperText="Repeat the password" InputType="InputType.Password"
+                                                  Validation="@(new Func<string, string>(PasswordMatch))" />
+                                    <div class="d-flex align-center justify-space-between">
+                                        <MudCheckBox T="bool" Required="true" RequiredError="You must agree" Label="I agree!" />
+                                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!SignUpSuccess)" Class="ml-auto">Register</MudButton>
+                                    </div>
+                                </MudForm>
+                            </MudPaper>
+                        </MudItem>
+                    </MudGrid>
+                </MudTabPanel>
+               
+            </MudTabs>
+
+
+
+           
+        </NotAuthorized>
+    </AuthorizeView>
+</MudContainer>
+
